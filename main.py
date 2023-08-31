@@ -3,6 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, current_user
 from flask import current_app
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import logout_user
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'application123'
@@ -83,7 +85,17 @@ def signup():
 @app.route('/dashboard')
 @login_required
 def dashboard():
-    return f'Welcome, {current_user.username}!'
+    return render_template('dashboard.html', user=current_user)
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('home'))
+@app.route('/profile')
+@login_required
+def profile():
+    return render_template('profile.html', user=current_user)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
