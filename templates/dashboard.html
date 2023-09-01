@@ -20,28 +20,30 @@
         </div>
     </nav>
 
-    <div class="container mt-5">
-        <div class="jumbotron">
-            <h1 class="display-4">Welcome, {{ user.username }}!</h1>
-            <p class="lead">Book Movie show Online.</p>
-            <hr class="my-4">
-            <p>Feel free to enjoy 3D World.</p>
 
-            <h2>Select a Movie</h2>
-            <select id="movie-select" class="form-control">
-                <option value="movie1">Movie 1</option>
-                <option value="movie2">Movie 2</option>
-                <!-- Add more movie options here -->
-            </select>
+<div class="container mt-5">
+    <div class="jumbotron">
+        <h1 class="display-4">Welcome, {{ user.username }}!</h1>
+        <p class="lead">Book Movie show Online.</p>
+        <hr class="my-4">
+        <p>Feel free to enjoy 3D World.</p>
 
-            <h2>Select Showtime</h2>
-            <ul id="showtime-list" class="list-group">
-                <!-- Showtimes will be dynamically populated here -->
-            </ul>
+        <h2>Select a Movie</h2>
+        <select id="movie-select" class="form-control">
+            {% for movie in movies %}
+            <option value="{{ movie.id }}">{{ movie.title }}</option>
+            {% endfor %}
+        </select>
 
-            <button id="book-button" class="btn btn-primary mt-3">Book Now</button>
-        </div>
+        <h2>Select Showtime</h2>
+        <ul id="showtime-list" class="list-group">
+            <!-- Showtimes will be dynamically populated here -->
+        </ul>
+
+        <button id="book-button" class="btn btn-primary mt-3">Book Now</button>
     </div>
+</div>
+
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>

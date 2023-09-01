@@ -85,7 +85,8 @@ def signup():
 @app.route('/dashboard')
 @login_required
 def dashboard():
-    return render_template('dashboard.html', user=current_user)
+    movies = Movie.query.all()
+    return render_template('dashboard.html', user=current_user, movies=movies)
 @app.route('/logout')
 @login_required
 def logout():
@@ -95,6 +96,16 @@ def logout():
 @login_required
 def profile():
     return render_template('profile.html', user=current_user)
+class Movie(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    poster_url = db.Column(db.String(200), nullable=False)
+    showtimes = db.relationship('Showtime', backref='movie', lazy=True)
+
+class Showtime(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    movie_id = db.Column(db.Integer, db.ForeignKey('movie.id'), nullable=False)
+    time = db.Column(db.String(10), nullable=False)
 
 
 if __name__ == '__main__':
