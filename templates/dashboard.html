@@ -29,9 +29,13 @@
         <p>Feel free to enjoy 3D World.</p>
 
         <h2>Select a Movie</h2>
+        <img src="https://image.tmdb.org/t/p/original/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg" width="50" height="75">
         <select id="movie-select" class="form-control">
             {% for movie in movies %}
+
             <option value="{{ movie.id }}">{{ movie.title }}</option>
+
+
             {% endfor %}
         </select>
 
@@ -43,6 +47,7 @@
         <button id="book-button" class="btn btn-primary mt-3">Book Now</button>
     </div>
 </div>
+
 
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
