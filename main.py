@@ -1,9 +1,11 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for,jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, current_user
 from flask import current_app
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import logout_user
+from datetime import datetime
+import uuid
 
 
 app = Flask(__name__)
@@ -86,6 +88,7 @@ def signup():
 @login_required
 def dashboard():
     movies = Movie.query.all()
+
     return render_template('dashboard.html', user=current_user, movies=movies)
 @app.route('/logout')
 @login_required
@@ -108,5 +111,56 @@ class Showtime(db.Model):
     time = db.Column(db.String(10), nullable=False)
 
 
+@app.route('/select_movie', methods=['POST'])
+@login_required
+def select_movie():
+    if request.method == 'POST':
+        movie_id = request.form['movie_id']
+        # Fetch the selected movie from the database based on movie_id
+        selected_movie = Movie.query.get(movie_id)
+        if selected_movie:
+            print(f"Selected Movie ID: {selected_movie.id}")
+            print(f"Selected Movie Title: {selected_movie.title}")
+            print(f"Selected Movie Poster URL: {selected_movie.poster_url}")
+
+            # For debugging, you can return JSON data containing the movie details
+            return jsonify({
+                'movie_id': selected_movie.id,
+                'title': selected_movie.title,
+                'poster_url': selected_movie.poster_url
+            })
+        else:
+            print("Movie not found")  # Handle the case where the movie doesn't exist
+
+    return redirect(url_for('dashboard'))
+
+
+@app.route('/book_now', methods=['POST'])
+@login_required
+def book_now():
+    if request.method == 'POST':
+        movie_id = request.form.get('movie_id')
+        print(f"Booking movie with ID: {movie_id}")
+
+        # Generate a unique confirmation number
+        confirmation_number = str(uuid.uuid4())[:5]
+
+        # You can add more booking logic here if needed
+
+        # Create a dictionary with booking details
+        booking_details = {
+            'movie_id': movie_id,
+            'confirmation_number': confirmation_number,
+            'booking_date': '2023-09-15',  # Set the booking date
+            # Add more booking details as needed
+        }
+
+        return render_template('book_now.html', booking_details=booking_details)
+
+    return redirect(url_for('dashboard'))
+
+
 if __name__ == '__main__':
     app.run(debug=True)
+
+

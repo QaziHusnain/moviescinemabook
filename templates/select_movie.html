@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Selected Movie</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">CinePlex Cinema</a>
+    </nav>
+
+    <div class="container mt-5">
+        <h1>Selected Movie</h1>
+        <div class="row">
+            <div class="col-md-6">
+                <img src="{{ selected_movie.poster_url }}" alt="{{ selected_movie.title }}" width="300" height="450" onclick="selectMovie('{{ selected_movie.id }}')">
+            </div>
+            <div class="col-md-6">
+                <h2>{{ selected_movie.title }}</h2>
+                <p>Movie Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <!-- Add more movie details here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        function selectMovie(movieId) {
+            // Create a form element
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/select_movie';
+
+            // Create an input element for the movie ID
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'movie_id';
+            input.value = movieId;
+
+            // Append the input to the form
+            form.appendChild(input);
+
+            // Append the form to the document and submit it
+            document.body.appendChild(form);
+            form.submit();
+        }
+    </script>
+</body>
+</html>
+

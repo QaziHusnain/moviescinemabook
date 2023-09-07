@@ -29,7 +29,7 @@
         <p>Feel free to enjoy 3D World.</p>
 
         <h2>Select a Movie</h2>
-        <img src="https://image.tmdb.org/t/p/original/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg" width="50" height="75">
+
         <select id="movie-select" class="form-control">
             {% for movie in movies %}
 
@@ -44,15 +44,24 @@
             <!-- Showtimes will be dynamically populated here -->
         </ul>
 
-        <button id="book-button" class="btn btn-primary mt-3">Book Now</button>
+        <form id="book-form" action="/book_now" method="POST">
+    <input type="hidden" id="selected-movie-id" name="movie_id" value="">
+    <button type="submit" id="book-button" class="btn btn-primary mt-3" disabled>Book Now</button>
+</form>
+
+        <script src="{{ url_for('static', filename='script.js') }}">
+
+        </script>
+
     </div>
 </div>
+
 
 
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
 </body>
 </html>
